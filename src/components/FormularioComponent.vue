@@ -5,7 +5,7 @@
         <validate tag="label" class="label-form">
           <span>Nombre*</span>
           <input type="text" v-model="model.name" required name="name" />
-          <field-messages name="name" show="$touched">
+          <field-messages name="name" show="$touched || $submitted" class="message-required">
             <div slot="required">El nombre es requerido</div>
           </field-messages>
         </validate>
@@ -13,7 +13,7 @@
         <validate tag="label" class="label-form">
           <span>Email*</span>
           <input type="email" v-model="model.email" name="email" required />
-          <field-messages name="email" show="$touched">
+          <field-messages name="email" show="$touched|| $submitted" class="message-required">
             <div slot="required">El email es requerido</div>
             <div slot="email">El email no es válido</div>
           </field-messages>
@@ -22,7 +22,7 @@
         <validate tag="label" class="label-form">
           <span>Teléfono*</span>
           <input type="tel" v-model="model.phone" name="phone" required pattern="[0-9]{10}" />
-          <field-messages name="phone" show="$touched">
+          <field-messages name="phone" show="$touched|| $submitted" class="message-required">
             <div slot="required">El teléfono es requerido</div>
             <div slot="pattern">El teléfono debe contener 10 dígitos numéricos</div>
           </field-messages>
@@ -31,7 +31,7 @@
         <validate tag="label" class="label-form">
           <span>Fecha de nacimiento*</span>
           <input type="date" v-model="model.birthDate" name="birthDate" required />
-          <field-messages name="birthDate" show="$touched">
+          <field-messages name="birthDate" show="$touched || $submitted" class="message-required">
             <div slot="required">La fecha de nacimiento es requerida</div>
           </field-messages>
         </validate>
@@ -42,7 +42,7 @@
             <option value="" disabled selected>Selecciona un país</option>
             <option v-for="country in countries" :value="country" :key="country">{{ country }}</option>
           </select>
-          <field-messages name="country" show="$touched">
+          <field-messages name="country" show="$touched || $submitted" class="message-required">
             <div slot="required">El país de residencia es requerido</div>
           </field-messages>
         </validate>
@@ -104,7 +104,7 @@ export default {
         birthDate: "",
         country: ""
       };
-      this.formstate = {};
+      this.formstate._reset();
     }
   }
 };
@@ -114,7 +114,7 @@ export default {
   .formulario{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     width: 50%;
     margin-left: 25%;
     background: darkcyan;
@@ -127,7 +127,7 @@ export default {
 
   .actions{
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
   }
 
@@ -145,5 +145,10 @@ export default {
     flex-direction: column;
     row-gap: 10px;
     color: white;
+    height: auto;
+  }
+  .message-required{
+    color: #bc2323;
+    font-weight: 600;
   }
 </style>
